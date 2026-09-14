@@ -1,0 +1,234 @@
+[gd_scene load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/Nextbot.tscn" id="3"]
+[ext_resource type="Script" path="res://scripts/virtual_joystick.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/touch_look.gd" id="5"]
+[ext_resource type="Script" path="res://scripts/touch_button.gd" id="6"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_1"]
+cell_size = 0.2
+cell_height = 0.2
+agent_height = 1.8
+agent_radius = 0.45
+agent_max_climb = 0.4
+agent_max_slope = 45.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_Env"]
+albedo_color = Color(0.55, 0.55, 0.58, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_Floor"]
+material = SubResource("Mat_Env")
+size = Vector3(40, 1, 40)
+
+[sub_resource type="BoxShape3D" id="BoxShape_Floor"]
+size = Vector3(40, 1, 40)
+
+[sub_resource type="BoxMesh" id="BoxMesh_WallNS"]
+material = SubResource("Mat_Env")
+size = Vector3(40, 4, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape_WallNS"]
+size = Vector3(40, 4, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_WallEW"]
+material = SubResource("Mat_Env")
+size = Vector3(1, 4, 40)
+
+[sub_resource type="BoxShape3D" id="BoxShape_WallEW"]
+size = Vector3(1, 4, 40)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ObstacleA"]
+material = SubResource("Mat_Env")
+size = Vector3(4, 3, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape_ObstacleA"]
+size = Vector3(4, 3, 4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ObstacleB"]
+material = SubResource("Mat_Env")
+size = Vector3(6, 2, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_ObstacleB"]
+size = Vector3(6, 2, 3)
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.8, -0.4, 0.45, 0, 0.75, 0.66, -0.6, -0.53, 0.6, 0, 10, 0)
+shadow_enabled = true
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_1")
+
+[node name="Floor" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Floor"]
+mesh = SubResource("BoxMesh_Floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Floor"]
+shape = SubResource("BoxShape_Floor")
+
+[node name="WallNorth" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -20)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/WallNorth"]
+mesh = SubResource("BoxMesh_WallNS")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/WallNorth"]
+shape = SubResource("BoxShape_WallNS")
+
+[node name="WallSouth" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 20)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/WallSouth"]
+mesh = SubResource("BoxMesh_WallNS")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/WallSouth"]
+shape = SubResource("BoxShape_WallNS")
+
+[node name="WallEast" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 2, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/WallEast"]
+mesh = SubResource("BoxMesh_WallEW")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/WallEast"]
+shape = SubResource("BoxShape_WallEW")
+
+[node name="WallWest" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 2, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/WallWest"]
+mesh = SubResource("BoxMesh_WallEW")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/WallWest"]
+shape = SubResource("BoxShape_WallEW")
+
+[node name="ObstacleA" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.5, 4)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/ObstacleA"]
+mesh = SubResource("BoxMesh_ObstacleA")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/ObstacleA"]
+shape = SubResource("BoxShape_ObstacleA")
+
+[node name="ObstacleB" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1, -6)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/ObstacleB"]
+mesh = SubResource("BoxMesh_ObstacleB")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/ObstacleB"]
+shape = SubResource("BoxShape_ObstacleB")
+
+[node name="Player" parent="NavigationRegion3D" instance=ExtResource("2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 12)
+
+[node name="Nextbot" parent="NavigationRegion3D" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -12)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Joystick" type="Control" parent="UI"]
+script = ExtResource("4")
+offset_left = 40.0
+offset_top = 480.0
+offset_right = 240.0
+offset_bottom = 680.0
+radius = 100.0
+
+[node name="TouchLook" type="Control" parent="UI"]
+script = ExtResource("5")
+offset_left = 640.0
+offset_top = 0.0
+offset_right = 1280.0
+offset_bottom = 520.0
+mouse_filter = 2
+
+[node name="SprintButton" type="Control" parent="UI"]
+script = ExtResource("6")
+offset_left = 1080.0
+offset_top = 550.0
+offset_right = 1240.0
+offset_bottom = 620.0
+
+[node name="Background" type="ColorRect" parent="UI/SprintButton"]
+offset_right = 160.0
+offset_bottom = 70.0
+color = Color(1, 1, 1, 0.18)
+
+[node name="Label" type="Label" parent="UI/SprintButton"]
+offset_right = 160.0
+offset_bottom = 70.0
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "БЕЖАТЬ"
+
+[node name="JumpButton" type="Control" parent="UI"]
+script = ExtResource("6")
+offset_left = 1080.0
+offset_top = 640.0
+offset_right = 1240.0
+offset_bottom = 710.0
+
+[node name="Background" type="ColorRect" parent="UI/JumpButton"]
+offset_right = 160.0
+offset_bottom = 70.0
+color = Color(1, 1, 1, 0.18)
+
+[node name="Label" type="Label" parent="UI/JumpButton"]
+offset_right = 160.0
+offset_bottom = 70.0
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "ПРЫЖОК"
+
+[node name="GameOverPanel" type="Control" parent="UI"]
+process_mode = 3
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Background" type="ColorRect" parent="UI/GameOverPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.7)
+
+[node name="TitleLabel" type="Label" parent="UI/GameOverPanel"]
+offset_left = 340.0
+offset_top = 260.0
+offset_right = 940.0
+offset_bottom = 340.0
+theme_override_font_sizes/font_size = 48
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "ПОЙМАЛИ!"
+
+[node name="RestartButton" type="Control" parent="UI/GameOverPanel"]
+script = ExtResource("6")
+offset_left = 520.0
+offset_top = 400.0
+offset_right = 760.0
+offset_bottom = 470.0
+
+[node name="Background" type="ColorRect" parent="UI/GameOverPanel/RestartButton"]
+offset_right = 240.0
+offset_bottom = 70.0
+color = Color(0.75, 0.1, 0.1, 0.85)
+
+[node name="Label" type="Label" parent="UI/GameOverPanel/RestartButton"]
+offset_right = 240.0
+offset_bottom = 70.0
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "ЗАНОВО"
+
+[connection signal="button_pressed" from="UI/SprintButton" to="NavigationRegion3D/Player" method="set_sprint" binds=[true]]
+[connection signal="button_released" from="UI/SprintButton" to="NavigationRegion3D/Player" method="set_sprint" binds=[false]]
+[connection signal="button_pressed" from="UI/JumpButton" to="NavigationRegion3D/Player" method="jump"]
+[connection signal="button_pressed" from="UI/GameOverPanel/RestartButton" to="." method="_on_restart_pressed"]

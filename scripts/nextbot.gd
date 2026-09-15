@@ -11,6 +11,8 @@ var _path_timer: float = 0.0
 var _caught: bool = false
 var _radar_active: bool = false
 var _spawn_position: Vector3
+var _last_pos: Vector3
+var _stuck_timer: float = 0.0
 
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var radar_sfx: AudioStreamPlayer3D = $RadarSfx
@@ -21,6 +23,7 @@ func _ready() -> void:
 	nav_agent.path_desired_distance = 0.5
 	nav_agent.target_desired_distance = 0.6
 	_spawn_position = global_position
+	_last_pos = global_position
 
 func _physics_process(delta: float) -> void:
 	if player == null or _caught:
@@ -60,6 +63,20 @@ func _physics_process(delta: float) -> void:
 
 	var dist: float = global_position.distance_to(player.global_position)
 
+	# сторож: если путь есть, а тело реально не сдвигается (застряли в проёме/углу) -
+	# принудительно пересчитываем путь и слегка "выталкиваем" из затора
+	var moved: float = global_position.distance_to(_last_pos)
+	if moved < 0.05 and dist > catch_distance + 0.5:
+		_stuck_timer += delta
+	else:
+		_stuck_timer = 0.0
+	_last_pos = global_position
+
+	if _stuck_timer > 1.5:
+		_path_timer = 0.0
+		global_position += Vector3(randf_range(-0.7, 0.7), 0.4, randf_range(-0.7, 0.7))
+		_stuck_timer = 0.0
+
 	if dist <= radar_distance and not _radar_active:
 		_radar_active = true
 		radar_sfx.play()
@@ -75,3 +92,5 @@ func reset(spawn_position: Vector3) -> void:
 	global_position = spawn_position
 	velocity = Vector3.ZERO
 	_caught = false
+	_last_pos = spawn_position
+	_stuck_timer = 0.0

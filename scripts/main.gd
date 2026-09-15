@@ -4,6 +4,7 @@ extends Node3D
 @onready var player: CharacterBody3D = $NavigationRegion3D/Player
 @onready var nextbot: CharacterBody3D = $NavigationRegion3D/Nextbot
 @onready var game_over_panel: Control = $UI/GameOverPanel
+@onready var lose_sfx: AudioStreamPlayer = $LoseSfx
 
 var player_spawn: Vector3
 var nextbot_spawn: Vector3
@@ -19,6 +20,7 @@ func _ready() -> void:
 	ChaseManager.player_caught.connect(_on_player_caught)
 
 func _on_player_caught() -> void:
+	lose_sfx.play()
 	get_tree().paused = true
 	game_over_panel.visible = true
 
@@ -28,3 +30,7 @@ func _on_restart_pressed() -> void:
 	player.global_position = player_spawn
 	player.velocity = Vector3.ZERO
 	nextbot.reset(nextbot_spawn)
+
+func _on_menu_pressed() -> void:
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://scenes/MainMenu.tscn")

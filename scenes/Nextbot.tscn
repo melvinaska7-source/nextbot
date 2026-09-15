@@ -1,19 +1,12 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://scripts/nextbot.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/models/tishkov.png" id="2"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx_bioradar.ogg" id="3"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
 radius = 0.4
 height = 1.9
-
-[sub_resource type="QuadMesh" id="QuadMesh_1"]
-size = Vector2(1.2, 1.9)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1"]
-shading_mode = 0
-albedo_color = Color(0.75, 0.1, 0.1, 1)
-billboard_mode = 1
-cull_mode = 2
 
 [node name="Nextbot" type="CharacterBody3D"]
 script = ExtResource("1")
@@ -22,10 +15,12 @@ script = ExtResource("1")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
 shape = SubResource("CapsuleShape3D_1")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
-mesh = SubResource("QuadMesh_1")
-surface_material_override/0 = SubResource("StandardMaterial3D_1")
+texture = ExtResource("2")
+pixel_size = 0.0018
+billboard = 2
+shaded = true
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 radius = 0.4
@@ -33,3 +28,8 @@ height = 1.9
 path_desired_distance = 0.5
 target_desired_distance = 0.6
 avoidance_enabled = false
+
+[node name="RadarSfx" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3")
+unit_size = 6.0
+max_distance = 30.0

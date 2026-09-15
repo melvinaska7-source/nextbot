@@ -10,6 +10,7 @@ extends CharacterBody3D
 
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var is_sprinting: bool = false
+var _last_safe_position: Vector3
 
 @onready var camera: Camera3D = $Camera3D
 @onready var joystick: Control = get_node("/root/Main/UI/Joystick")
@@ -17,8 +18,16 @@ var is_sprinting: bool = false
 
 func _ready() -> void:
 	add_to_group("player")
+	_last_safe_position = global_position
 
 func _physics_process(delta: float) -> void:
+	if is_on_floor():
+		_last_safe_position = global_position
+	elif global_position.y < -10.0:
+		# страховка: если где-то провалились сквозь геометрию - вернуть на последнюю точку на полу
+		global_position = _last_safe_position
+		velocity = Vector3.ZERO
+
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 

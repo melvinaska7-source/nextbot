@@ -6,7 +6,7 @@ config_version=5
 [application]
 
 config/name="NextbotSchool"
-run/main_scene="res://scenes/Main.tscn"
+run/main_scene="res://scenes/MainMenu.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
 config/icon="res://icon.svg"
 
@@ -24,7 +24,7 @@ window/stretch/aspect="expand"
 
 [input_devices]
 
-pointing/emulate_mouse_from_touch=false
+pointing/emulate_mouse_from_touch=true
 
 [physics]
 

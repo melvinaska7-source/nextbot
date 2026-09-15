@@ -1,0 +1,201 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/mainmenu.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/looping_audio.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/touch_button.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/ui/menu_bg.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/ui/btn_play.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/ui/btn_settings.png" id="6"]
+[ext_resource type="Texture2D" path="res://assets/ui/btn_about.png" id="7"]
+[ext_resource type="AudioStream" path="res://assets/audio/music_menu.mp3" id="8"]
+
+[node name="MainMenu" type="Control"]
+script = ExtResource("1")
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Background" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("4")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Menu music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8")
+volume_db = -6.0
+autoplay = true
+script = ExtResource("2")
+
+[node name="PlayButton" type="TextureButton" parent="."]
+offset_left = 1000.0
+offset_top = 130.0
+offset_right = 1200.0
+offset_bottom = 330.0
+texture_normal = ExtResource("5")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="PlayButton"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "ИГРАТЬ"
+mouse_filter = 2
+
+[node name="SettingsButton" type="TextureButton" parent="."]
+offset_left = 1020.0
+offset_top = 350.0
+offset_right = 1180.0
+offset_bottom = 510.0
+texture_normal = ExtResource("6")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="SettingsButton"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "НАСТРОЙКИ"
+mouse_filter = 2
+
+[node name="AboutButton" type="TextureButton" parent="."]
+offset_left = 1020.0
+offset_top = 530.0
+offset_right = 1180.0
+offset_bottom = 690.0
+texture_normal = ExtResource("7")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="AboutButton"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "ПОЗНАКОМИТЬСЯ"
+mouse_filter = 2
+
+[node name="AboutPanel" type="Control" parent="."]
+visible = false
+offset_left = 120.0
+offset_top = 50.0
+offset_right = 860.0
+offset_bottom = 670.0
+
+[node name="Background" type="ColorRect" parent="AboutPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.08, 0.08, 0.09, 0.92)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="AboutPanel"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 720.0
+offset_bottom = 560.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="AboutPanel/ScrollContainer"]
+offset_right = 680.0
+offset_bottom = 900.0
+bbcode_enabled = true
+fit_content = true
+text = "[b]Тишков[/b]
+Самый быстрый и опасный. Ловит - сразу гейм овер. Иногда может не заметить тебя, если спрятался.
+Сила: убивает сразу при поимке.
+Слабость: может не найти тебя, если спрятался вовремя.
+
+[b]Лихачева (трудовичка)[/b]
+Самая медленная, зато появляется неожиданно и близко. Если поймала - держит 30 секунд, пока не придёт Тишков.
+Сила: быстро хватает и близко спавнится.
+Слабость: плохо видит - можно убежать, пока отвлеклась.
+
+[b]Литричка[/b]
+Очень чуткая, замечает издалека. Если увидела - лучше сразу бежать.
+Сила: высокая чуткость.
+Слабость: боится Андрохака.
+
+[b]Андрохак[/b]
+Робот-помощник. Может один раз за игру спасти от Литрички.
+Сила: спасает от Литрички.
+Слабость: исчезает после использования.
+
+[b]Био-Радар[/b]
+Всегда с собой. Предупреждает звуком, когда рядом учитель.
+Сила: заранее предупреждает.
+Слабость: нет."
+
+[node name="CloseAbout" type="Control" parent="AboutPanel"]
+script = ExtResource("3")
+offset_left = 600.0
+offset_top = 580.0
+offset_right = 740.0
+offset_bottom = 640.0
+
+[node name="Background" type="ColorRect" parent="AboutPanel/CloseAbout"]
+offset_right = 140.0
+offset_bottom = 60.0
+color = Color(1, 1, 1, 0.18)
+
+[node name="Label" type="Label" parent="AboutPanel/CloseAbout"]
+offset_right = 140.0
+offset_bottom = 60.0
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "ЗАКРЫТЬ"
+
+[node name="SettingsPanel" type="Control" parent="."]
+visible = false
+offset_left = 340.0
+offset_top = 220.0
+offset_right = 940.0
+offset_bottom = 500.0
+
+[node name="Background" type="ColorRect" parent="SettingsPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.08, 0.08, 0.09, 0.92)
+
+[node name="VolumeLabel" type="Label" parent="SettingsPanel"]
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 570.0
+offset_bottom = 70.0
+text = "Громкость"
+
+[node name="VolumeSlider" type="HSlider" parent="SettingsPanel"]
+offset_left = 30.0
+offset_top = 80.0
+offset_right = 570.0
+offset_bottom = 110.0
+min_value = 0.0
+max_value = 1.0
+step = 0.01
+value = 0.8
+
+[node name="CloseSettings" type="Control" parent="SettingsPanel"]
+script = ExtResource("3")
+offset_left = 180.0
+offset_top = 170.0
+offset_right = 420.0
+offset_bottom = 230.0
+
+[node name="Background" type="ColorRect" parent="SettingsPanel/CloseSettings"]
+offset_right = 240.0
+offset_bottom = 60.0
+color = Color(1, 1, 1, 0.18)
+
+[node name="Label" type="Label" parent="SettingsPanel/CloseSettings"]
+offset_right = 240.0
+offset_bottom = 60.0
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "ЗАКРЫТЬ"
+
+[connection signal="pressed" from="PlayButton" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="SettingsButton" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="AboutButton" to="." method="_on_about_pressed"]
+[connection signal="button_pressed" from="AboutPanel/CloseAbout" to="." method="_on_close_about_pressed"]
+[connection signal="button_pressed" from="SettingsPanel/CloseSettings" to="." method="_on_close_settings_pressed"]
+[connection signal="value_changed" from="SettingsPanel/VolumeSlider" to="." method="_on_volume_changed"]

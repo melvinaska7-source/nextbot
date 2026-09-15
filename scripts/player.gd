@@ -8,9 +8,17 @@ extends CharacterBody3D
 @export var min_pitch_deg: float = -70.0
 @export var max_pitch_deg: float = 70.0
 
+# Прыжковое ускорение: каждый прыжок в движении добавляет временный буст
+# к скорости (как банихоп). Если не прыгать снова вовремя - буст сгорает.
+@export var hop_bonus_step: float = 0.35
+@export var max_hop_bonus: float = 1.5
+@export var hop_bonus_grace_time: float = 0.35
+
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var is_sprinting: bool = false
 var _last_safe_position: Vector3
+var hop_speed_multiplier: float = 1.0
+var _time_since_landed: float = 0.0
 
 @onready var camera: Camera3D = $Camera3D
 @onready var joystick: Control = get_node("/root/Main/UI/Joystick")
@@ -44,7 +52,12 @@ func _physics_process(delta: float) -> void:
 	if direction.length() > 0.01:
 		direction = direction.normalized()
 
-	var speed: float = sprint_speed if is_sprinting else walk_speed
+	var speed: float = (sprint_speed if is_sprinting else walk_speed) * hop_speed_multiplier
+
+	if is_on_floor():
+		_time_since_landed += delta
+		if _time_since_landed > hop_bonus_grace_time:
+			hop_speed_multiplier = 1.0
 
 	if direction.length() > 0.01:
 		velocity.x = direction.x * speed
@@ -58,6 +71,8 @@ func _physics_process(delta: float) -> void:
 func jump() -> void:
 	if is_on_floor():
 		velocity.y = jump_velocity
+		hop_speed_multiplier = min(hop_speed_multiplier + hop_bonus_step, 1.0 + max_hop_bonus)
+		_time_since_landed = 0.0
 
 func set_sprint(value: bool) -> void:
 	is_sprinting = value

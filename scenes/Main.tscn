@@ -15,6 +15,8 @@
 [ext_resource type="Texture2D" path="res://assets/textures/floor/floor_corridor.jpg" id="tex_floor_corridor"]
 [ext_resource type="Texture2D" path="res://assets/textures/walls/painting1.png" id="tex_painting1"]
 [ext_resource type="Texture2D" path="res://assets/textures/walls/painting2.png" id="tex_painting2"]
+[ext_resource type="Texture2D" path="res://assets/models/litrichka.png" id="tex_litrichka"]
+[ext_resource type="Texture2D" path="res://assets/models/trudichka.png" id="tex_trudichka"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_1"]
 cell_size = 0.25
@@ -1283,8 +1285,29 @@ mesh = SubResource("Mesh_Painting2")
 [node name="Player" parent="NavigationRegion3D" instance=ExtResource("2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -122.5, 1, 0)
 
-[node name="Nextbot" parent="NavigationRegion3D" instance=ExtResource("3")]
+[node name="Tishkov" parent="NavigationRegion3D" instance=ExtResource("3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 122.5, 1, 0)
+speed = 7.2
+catch_distance = 1.2
+radar_distance = 16.0
+
+[node name="Litrichka" parent="NavigationRegion3D" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 98)
+speed = 5.0
+catch_distance = 1.2
+radar_distance = 24.0
+
+[node name="Sprite3D" parent="NavigationRegion3D/Litrichka" index="1"]
+texture = ExtResource("tex_litrichka")
+
+[node name="Trudichka" parent="NavigationRegion3D" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -98)
+speed = 3.6
+catch_distance = 1.2
+radar_distance = 14.0
+
+[node name="Sprite3D" parent="NavigationRegion3D/Trudichka" index="1"]
+texture = ExtResource("tex_trudichka")
 
 [node name="GameplayMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8")
@@ -1412,6 +1435,7 @@ text = "В МЕНЮ"
 
 [connection signal="button_pressed" from="UI/SprintButton" to="NavigationRegion3D/Player" method="set_sprint" binds=[true]]
 [connection signal="button_released" from="UI/SprintButton" to="NavigationRegion3D/Player" method="set_sprint" binds=[false]]
-[connection signal="button_pressed" from="UI/JumpButton" to="NavigationRegion3D/Player" method="jump"]
+[connection signal="button_pressed" from="UI/JumpButton" to="NavigationRegion3D/Player" method="set_jump_held" binds=[true]]
+[connection signal="button_released" from="UI/JumpButton" to="NavigationRegion3D/Player" method="set_jump_held" binds=[false]]
 [connection signal="button_pressed" from="UI/GameOverPanel/RestartButton" to="." method="_on_restart_pressed"]
 [connection signal="button_pressed" from="UI/GameOverPanel/MenuButton" to="." method="_on_menu_pressed"]

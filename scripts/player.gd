@@ -19,6 +19,7 @@ var is_sprinting: bool = false
 var _last_safe_position: Vector3
 var hop_speed_multiplier: float = 1.0
 var _time_since_landed: float = 0.0
+var _jump_held: bool = false
 
 @onready var camera: Camera3D = $Camera3D
 @onready var joystick: Control = get_node("/root/Main/UI/Joystick")
@@ -31,6 +32,8 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if is_on_floor():
 		_last_safe_position = global_position
+		if _jump_held:
+			jump()
 	elif global_position.y < -10.0:
 		# страховка: если где-то провалились сквозь геометрию - вернуть на последнюю точку на полу
 		global_position = _last_safe_position
@@ -76,3 +79,8 @@ func jump() -> void:
 
 func set_sprint(value: bool) -> void:
 	is_sprinting = value
+
+func set_jump_held(value: bool) -> void:
+	_jump_held = value
+	if value and is_on_floor():
+		jump()

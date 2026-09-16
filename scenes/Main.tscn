@@ -1296,18 +1296,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 98)
 speed = 5.0
 catch_distance = 1.2
 radar_distance = 24.0
-
-[node name="Sprite3D" parent="NavigationRegion3D/Litrichka" index="1"]
-texture = ExtResource("tex_litrichka")
+teacher_texture = ExtResource("tex_litrichka")
 
 [node name="Trudichka" parent="NavigationRegion3D" instance=ExtResource("3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -98)
 speed = 3.6
 catch_distance = 1.2
 radar_distance = 14.0
-
-[node name="Sprite3D" parent="NavigationRegion3D/Trudichka" index="1"]
-texture = ExtResource("tex_trudichka")
+teacher_texture = ExtResource("tex_trudichka")
 
 [node name="GameplayMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8")

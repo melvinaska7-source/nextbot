@@ -4,6 +4,7 @@ extends CharacterBody3D
 @export var catch_distance: float = 1.2
 @export var path_update_interval: float = 0.2
 @export var radar_distance: float = 14.0
+@export var teacher_texture: Texture2D
 
 var player: Node3D = null
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -16,6 +17,7 @@ var _stuck_timer: float = 0.0
 
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var radar_sfx: AudioStreamPlayer3D = $RadarSfx
+@onready var sprite: Sprite3D = $Sprite3D
 
 func _ready() -> void:
 	add_to_group("enemies")
@@ -24,6 +26,11 @@ func _ready() -> void:
 	nav_agent.target_desired_distance = 0.6
 	_spawn_position = global_position
 	_last_pos = global_position
+	if teacher_texture != null:
+		sprite.texture = teacher_texture
+		var tex_h: int = teacher_texture.get_height()
+		if tex_h > 0:
+			sprite.pixel_size = 1.9 / float(tex_h)
 
 func _physics_process(delta: float) -> void:
 	if player == null or _caught:

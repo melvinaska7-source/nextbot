@@ -7,10 +7,11 @@ radius = 0.4
 height = 1.8
 
 [sub_resource type="Environment" id="Environment_1"]
-background_mode = 2
-ambient_light_source = 3
+background_mode = 1
+background_color = Color(0.65, 0.72, 0.8, 1)
+ambient_light_source = 2
 ambient_light_color = Color(1, 1, 1, 1)
-ambient_light_energy = 0.6
+ambient_light_energy = 1.0
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1")

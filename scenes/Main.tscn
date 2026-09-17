@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" path="res://assets/textures/walls/painting2.png" id="tex_painting2"]
 [ext_resource type="Texture2D" path="res://assets/models/litrichka.png" id="tex_litrichka"]
 [ext_resource type="Texture2D" path="res://assets/models/trudichka.png" id="tex_trudichka"]
+[ext_resource type="Texture2D" path="res://assets/models/bonus_andro.png" id="tex_bonus"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_1"]
 cell_size = 0.25
@@ -1304,6 +1305,66 @@ speed = 3.6
 catch_distance = 1.2
 radar_distance = 14.0
 teacher_texture = ExtResource("tex_trudichka")
+
+[node name="Extra1" parent="NavigationRegion3D" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 1, -49)
+speed = 4.2
+catch_distance = 1.2
+radar_distance = 16.0
+
+[node name="Extra2" parent="NavigationRegion3D" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -49)
+speed = 5.5
+catch_distance = 1.2
+radar_distance = 16.0
+teacher_texture = ExtResource("tex_litrichka")
+
+[node name="Extra3" parent="NavigationRegion3D" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 1, -49)
+speed = 6.4
+catch_distance = 1.2
+radar_distance = 16.0
+teacher_texture = ExtResource("tex_trudichka")
+
+[node name="Extra4" parent="NavigationRegion3D" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 1, 49)
+speed = 4.8
+catch_distance = 1.2
+radar_distance = 16.0
+teacher_texture = ExtResource("tex_bonus")
+
+[node name="Extra5" parent="NavigationRegion3D" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 49)
+speed = 4.2
+catch_distance = 1.2
+radar_distance = 16.0
+
+[node name="Extra6" parent="NavigationRegion3D" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 1, 49)
+speed = 5.5
+catch_distance = 1.2
+radar_distance = 16.0
+teacher_texture = ExtResource("tex_litrichka")
+
+[node name="Extra7" parent="NavigationRegion3D" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49, 1, 0)
+speed = 6.4
+catch_distance = 1.2
+radar_distance = 16.0
+teacher_texture = ExtResource("tex_trudichka")
+
+[node name="Extra8" parent="NavigationRegion3D" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49, 1, 0)
+speed = 4.8
+catch_distance = 1.2
+radar_distance = 16.0
+teacher_texture = ExtResource("tex_bonus")
+
+[node name="Extra9" parent="NavigationRegion3D" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 1, -98)
+speed = 4.2
+catch_distance = 1.2
+radar_distance = 16.0
 
 [node name="GameplayMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8")
